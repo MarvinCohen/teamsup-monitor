@@ -1,7 +1,6 @@
 """
 scrapers/forums_scraper.py — Scraper Google News RSS pour TeamsUp
-Surveille les actualités et discussions sport via Google News RSS.
-Ciblé sur les cas d'usage TeamsUp : joueurs manquants, annulations, recherche.
+Recherches très ciblées par sport, ville et cas d'usage.
 """
 
 import time
@@ -10,33 +9,61 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 
 GOOGLE_NEWS_FEEDS = [
+    # ── Joueur manquant — cas d'usage #1 ──
     {
-        "name": "Google News — joueur manquant foot",
-        "url": "https://news.google.com/rss/search?q=joueur+manquant+football+five&hl=fr&gl=FR&ceid=FR:fr",
+        "name": "Google News — joueur manquant five",
+        "url": "https://news.google.com/rss/search?q=joueur+manquant+five+foot&hl=fr&gl=FR&ceid=FR:fr",
     },
+    {
+        "name": "Google News — cherche joueur ce soir",
+        "url": "https://news.google.com/rss/search?q=%22cherche+joueur%22+%22ce+soir%22&hl=fr&gl=FR&ceid=FR:fr",
+    },
+    {
+        "name": "Google News — il nous manque joueur",
+        "url": "https://news.google.com/rss/search?q=%22il+nous+manque%22+joueur+match&hl=fr&gl=FR&ceid=FR:fr",
+    },
+    {
+        "name": "Google News — match annulé faute joueurs",
+        "url": "https://news.google.com/rss/search?q=%22match+annul%C3%A9%22+%22faute+de+joueurs%22&hl=fr&gl=FR&ceid=FR:fr",
+    },
+    # ── Par sport ──
     {
         "name": "Google News — cherche joueur padel",
-        "url": "https://news.google.com/rss/search?q=cherche+joueur+padel+tennis&hl=fr&gl=FR&ceid=FR:fr",
+        "url": "https://news.google.com/rss/search?q=%22cherche+joueur%22+padel&hl=fr&gl=FR&ceid=FR:fr",
     },
     {
-        "name": "Google News — sport amateur annulation",
-        "url": "https://news.google.com/rss/search?q=sport+amateur+annulation+match+joueur&hl=fr&gl=FR&ceid=FR:fr",
+        "name": "Google News — cherche partenaire tennis",
+        "url": "https://news.google.com/rss/search?q=%22cherche+partenaire%22+tennis+amateur&hl=fr&gl=FR&ceid=FR:fr",
     },
     {
-        "name": "Google News — football five Paris",
-        "url": "https://news.google.com/rss/search?q=football+five+paris+joueur+%C3%A9quipe&hl=fr&gl=FR&ceid=FR:fr",
+        "name": "Google News — cherche joueur basket handball",
+        "url": "https://news.google.com/rss/search?q=%22cherche+joueur%22+basket+handball+amateur&hl=fr&gl=FR&ceid=FR:fr",
     },
     {
-        "name": "Google News — padel France amateur",
-        "url": "https://news.google.com/rss/search?q=padel+france+amateur+partenaire&hl=fr&gl=FR&ceid=FR:fr",
+        "name": "Google News — cherche joueur badminton volley",
+        "url": "https://news.google.com/rss/search?q=%22cherche+joueur%22+badminton+volley+amateur&hl=fr&gl=FR&ceid=FR:fr",
+    },
+    # ── Par ville ──
+    {
+        "name": "Google News — sport amateur Paris joueur",
+        "url": "https://news.google.com/rss/search?q=sport+amateur+Paris+cherche+joueur&hl=fr&gl=FR&ceid=FR:fr",
     },
     {
-        "name": "Google News — sport collectif application",
-        "url": "https://news.google.com/rss/search?q=sport+collectif+application+trouver+joueur&hl=fr&gl=FR&ceid=FR:fr",
+        "name": "Google News — sport amateur Lyon joueur",
+        "url": "https://news.google.com/rss/search?q=sport+amateur+Lyon+cherche+joueur&hl=fr&gl=FR&ceid=FR:fr",
     },
     {
-        "name": "Google News — tournoi amateur football basket",
-        "url": "https://news.google.com/rss/search?q=tournoi+amateur+football+basket+inscription&hl=fr&gl=FR&ceid=FR:fr",
+        "name": "Google News — sport amateur Marseille joueur",
+        "url": "https://news.google.com/rss/search?q=sport+amateur+Marseille+cherche+joueur&hl=fr&gl=FR&ceid=FR:fr",
+    },
+    # ── Tournois ──
+    {
+        "name": "Google News — tournoi amateur inscription",
+        "url": "https://news.google.com/rss/search?q=tournoi+amateur+inscription+%C3%A9quipe+sport&hl=fr&gl=FR&ceid=FR:fr",
+    },
+    {
+        "name": "Google News — application trouver joueur sport",
+        "url": "https://news.google.com/rss/search?q=application+trouver+joueur+sport+amateur&hl=fr&gl=FR&ceid=FR:fr",
     },
 ]
 
